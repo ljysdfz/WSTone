@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<title>WSTone Class Reference</title>
+
+	<link rel="stylesheet" href="../css/style.css">
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1.4">
+	<meta name="generator" content="appledoc 2.2.1 (build 1334)">
+</head>
+<body class="appledoc">
+	<header>
+		<div class="container" class="hide-in-xcode">
+			
+			<h1 id="library-title">
+				<a href="../index.html">WSAudioFramework </a>
+			</h1>
+
+			<p id="developer-home">
+				<a href="../index.html">Telecom</a>
+			</p>
+			
+		</div>
+	</header>
+
+	<aside>
+		<div class="container">
+			<nav>
+				<ul id="header-buttons" role="toolbar">
+					<li><a href="../index.html">Index</a></li>
+<li><a href="../hierarchy.html">Hierarchy</a></li>
+
+					<li id="on-this-page" role="navigation">
+						<label>
+							On This Page
+
+							<div class="chevron">
+								<div class="chevy chevron-left"></div>
+								<div class="chevy chevron-right"></div>
+							</div>
+
+							<select id="jump-to">
+	<option value="top">Jump To&#133;</option>
+	
+	<option value="overview">Overview</option>
+	
+
+	
+	
+	<option value="tasks">Tasks</option>
+	
+	
+
+	
+	
+	<optgroup label="Properties">
+		
+		<option value="//api/name/isAmbitious">isAmbitious</option>
+		
+		<option value="//api/name/isVibrating">isVibrating</option>
+		
+		<option value="//api/name/resumeAfterInterruption">resumeAfterInterruption</option>
+		
+		<option value="//api/name/vibrateOnRing">vibrateOnRing</option>
+		
+	</optgroup>
+	
+
+	
+	<optgroup label="Class Methods">
+		
+		<option value="//api/name/playingToneWithSoundData:isAmbitious:isRepeated:vibrateOnRing:resumeAfterInterruption:toneDelegate:">+ playingToneWithSoundData:isAmbitious:isRepeated:vibrateOnRing:resumeAfterInterruption:toneDelegate:</option>
+		
+		<option value="//api/name/playingToneWithSoundURL:isAmbitious:isRepeated:vibrateOnRing:resumeAfterInterruption:toneDelegate:">+ playingToneWithSoundURL:isAmbitious:isRepeated:vibrateOnRing:resumeAfterInterruption:toneDelegate:</option>
+		
+		<option value="//api/name/recordingToneWithToneDelegate:">+ recordingToneWithToneDelegate:</option>
+		
+	</optgroup>
+	
+
+	
+	<optgroup label="Instance Methods">
+		
+		<option value="//api/name/abort">- abort</option>
+		
+		<option value="//api/name/deinitSession">- deinitSession</option>
+		
+		<option value="//api/name/didAbort">- didAbort</option>
+		
+		<option value="//api/name/didPause">- didPause</option>
+		
+		<option value="//api/name/didResume">- didResume</option>
+		
+		<option value="//api/name/didStart">- didStart</option>
+		
+		<option value="//api/name/didStopWithData:">- didStopWithData:</option>
+		
+		<option value="//api/name/handleSystemInterruption:">- handleSystemInterruption:</option>
+		
+		<option value="//api/name/initSession">- initSession</option>
+		
+		<option value="//api/name/pause">- pause</option>
+		
+		<option value="//api/name/resume">- resume</option>
+		
+		<option value="//api/name/start">- start</option>
+		
+		<option value="//api/name/stop">- stop</option>
+		
+	</optgroup>
+	
+	
+</select>
+						</label>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</aside>
+
+	<article>
+		<div id="overview_contents" class="container">
+			<div id="content">
+				<main role="main">
+					<h1 class="title">WSTone Class Reference</h1>
+
+					
+					<div class="section section-specification"><table cellspacing="0"><tbody>
+						<tr>
+	<th>Inherits from</th>
+	<td>NSObject</td>
+</tr><tr>
+	<th>Declared in</th>
+	<td>WSTone.h<br />WSTone.m</td>
+</tr>
+						</tbody></table></div>
+					
+
+                    
+					
+					<div class="section section-overview">
+						<a title="Overview" name="overview"></a>
+						<h2 class="subtitle subtitle-overview">Overview</h2>
+						<p>Tone类族的抽象父类</p>
+
+<ol>
+<li>外部普通app的声音基本不影响本app声音。当其他音乐正在后台播放时，来了我们的声音会压低或停止（根据对方的类型）对方的音乐；本app播放结束后再恢复被中断的外部app。其他声音在前台播放时，我们的声音在后台启动一般会被压低少许声音。</li>
+<li>如电话／闹钟等的系统app的高优先级声音会打断本app声音 ；结束后会根据被打断声音的不同类型来决定是否重启。（参考<a href="#//api/name/resumeAfterInterruption">resumeAfterInterruption</a>属性）</li>
+<li>正在播放声音时来了新的内部声音，如果新来的声音优先级低或相等则只是振动(如果已经在振动，例如静音情况下的Incoming tone，则直接退出)；如果优先级高则停止前一个声音，播放完后根据被中断声音的重启策略决定是否重启。（参考<a href="#//api/name/resumeAfterInterruption">resumeAfterInterruption</a>属性）</li>
+<li>切换声道（包括插拔耳机）会自动选择最后切换到的声道（输入／输出）声音。</li>
+<li>录音时系统不允许振动，所以此时启动播放的声音如果优先级不比录音事件高，则无法收到振动；否则将停止当前录音并播放高优先级声音。</li>
+<li>支持后台播放和后台录音。</li>
+<li>tone的主动型与被动型区别：1）主动型tone无视系统静音键，任何情况都会播放声音；当被动型遇到静音情况时，会变为振动。2）主动型tone优先级比被动型tone高。</li>
+<li>音量默认为当前系统音量值的100%并跟随系统音量变化。</li>
+</ol>
+
+					</div>
+					
+					
+
+					
+					
+					<div class="section section-tasks">
+						<a title="Tasks" name="tasks"></a>
+						
+
+						<a title="Class Methods" name="task_Class Methods"></a>
+						<h2 class="task-title">Class Methods</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/playingToneWithSoundURL:isAmbitious:isRepeated:vibrateOnRing:resumeAfterInterruption:toneDelegate:" title="playingToneWithSoundURL:isAmbitious:isRepeated:vibrateOnRing:resumeAfterInterruption:toneDelegate:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/playingToneWithSoundURL:isAmbitious:isRepeated:vibrateOnRing:resumeAfterInterruption:toneDelegate:">+&nbsp;playingToneWithSoundURL:isAmbitious:isRepeated:vibrateOnRing:resumeAfterInterruption:toneDelegate:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>播放型Tone指定类构造方法</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (instancetype)playingToneWithSoundURL:(NSURL *)<em>soundURL</em> isAmbitious:(BOOL)<em>isAmbitious</em> isRepeated:(BOOL)<em>isRepeated</em> vibrateOnRing:(BOOL)<em>vibrateOnRing</em> resumeAfterInterruption:(BOOL)<em>resumeAfterInterruption</em> toneDelegate:(nullable id&lt;WSPlayingToneDelegate&gt;)<em>toneDelegate</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>soundURL</code></th>
+						<td><p>需要播放的声音文件的 <strong><em>本地URL</em></strong>，可支持的格式包括但不限于amr,mp3,wav,caf,m4a,aif,au,snd,aac。</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>isAmbitious</code></th>
+						<td><p>是否主动型。见<WSTone>类说明。</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>isRepeated</code></th>
+						<td><p>是否重复播放。</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>vibrateOnRing</code></th>
+						<td><p>播放声音时是否振动。</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>resumeAfterInterruption</code></th>
+						<td><p>是否在被系统高优先级音频事件中断结束后重启tone。</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>toneDelegate</code></th>
+						<td><p><a href="../Protocols/WSPlayingToneDelegate.html">WSPlayingToneDelegate</a>协议的委托对象，用于接收tone的生命周期消息。</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>当前对象实例。</p>
+			</div>
+			
+
+			
+
+			
+			<div class="method-subsection discussion-section">
+				<h4 class="method-subtitle">Discussion</h4>
+				<div class="warning"><p><strong>Warning:</strong> 不可以使用网络远程URL构造<soundURL>。</p></div>
+			</div>
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">WSTone.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/playingToneWithSoundData:isAmbitious:isRepeated:vibrateOnRing:resumeAfterInterruption:toneDelegate:" title="playingToneWithSoundData:isAmbitious:isRepeated:vibrateOnRing:resumeAfterInterruption:toneDelegate:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/playingToneWithSoundData:isAmbitious:isRepeated:vibrateOnRing:resumeAfterInterruption:toneDelegate:">+&nbsp;playingToneWithSoundData:isAmbitious:isRepeated:vibrateOnRing:resumeAfterInterruption:toneDelegate:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>播放型Tone指定类构造方法</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (instancetype)playingToneWithSoundData:(NSData *)<em>soundData</em> isAmbitious:(BOOL)<em>isAmbitious</em> isRepeated:(BOOL)<em>isRepeated</em> vibrateOnRing:(BOOL)<em>vibrateOnRing</em> resumeAfterInterruption:(BOOL)<em>resumeAfterInterruption</em> toneDelegate:(nullable id&lt;WSPlayingToneDelegate&gt;)<em>toneDelegate</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>soundData</code></th>
+						<td><p>需要播放的声音的二进制数据，可支持的格式包括但不限于amr,mp3,wav,caf,m4a,aif,au,snd,aac。</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>isAmbitious</code></th>
+						<td><p>是否主动型。见<WSTone>类说明。</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>isRepeated</code></th>
+						<td><p>是否重复播放。</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>vibrateOnRing</code></th>
+						<td><p>是否振动。</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>resumeAfterInterruption</code></th>
+						<td><p>是否在被系统高优先级音频事件中断结束后重启tone。</p></td>
+					</tr>
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>toneDelegate</code></th>
+						<td><p><a href="../Protocols/WSPlayingToneDelegate.html">WSPlayingToneDelegate</a>协议的委托对象，用于接收tone的生命周期消息。</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>当前对象实例</p>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">WSTone.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/recordingToneWithToneDelegate:" title="recordingToneWithToneDelegate:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/recordingToneWithToneDelegate:">+&nbsp;recordingToneWithToneDelegate:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>录制型Tone指定类构造方法</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>+ (instancetype)recordingToneWithToneDelegate:(nullable id&lt;WSRecordingToneDelegate&gt;)<em>toneDelegate</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>toneDelegate</code></th>
+						<td><p><a href="../Protocols/WSRecordingToneDelegate.html">WSRecordingToneDelegate</a>协议的委托对象，用于接收tone的生命周期消息</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+			<div class="method-subsection return">
+				<h4 class="method-subtitle parameter-title">Return Value</h4>
+				<p>当前对象实例</p>
+			</div>
+			
+
+			
+
+			
+			<div class="method-subsection discussion-section">
+				<h4 class="method-subtitle">Discussion</h4>
+				<p>录制型Tone有如下特征：</p>
+
+<ol>
+<li>最终将生成AMR类型的音频数据。</li>
+<li>主动型。见<WSTone>类说明。</li>
+<li>不重复录制。</li>
+<li>不振动不播放声音。</li>
+<li>在被系统高优先级音频事件中断结束后不重启</li>
+</ol>
+
+			</div>
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">WSTone.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div>
+						</div>
+						
+
+						
+						<h2 class="task-title">Other Methods</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/start" title="start"></a>
+	<h3 class="method-title"><code><a href="#//api/name/start">&ndash;&nbsp;start</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>第一次启动播放。</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)start</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">WSTone+Private.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/stop" title="stop"></a>
+	<h3 class="method-title"><code><a href="#//api/name/stop">&ndash;&nbsp;stop</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>正常停止播放。被用户手动停止或播放结束。调用后tone的context将被回收</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)stop</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">WSTone+Private.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/pause" title="pause"></a>
+	<h3 class="method-title"><code><a href="#//api/name/pause">&ndash;&nbsp;pause</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>正在播放时暂停播放，未来可以通过<a href="#//api/name/resume">resume</a>重启。</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)pause</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">WSTone+Private.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/resume" title="resume"></a>
+	<h3 class="method-title"><code><a href="#//api/name/resume">&ndash;&nbsp;resume</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>曾经<a href="#//api/name/pause">pause</a>，之后恢复播放。</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)resume</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">WSTone+Private.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/abort" title="abort"></a>
+	<h3 class="method-title"><code><a href="#//api/name/abort">&ndash;&nbsp;abort</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>夭折。启动时因为而优先级冲突、系统禁止、播放模式限制等因素被<a href="../Classes/WSToneManager.html">WSToneManager</a>拒绝播放。</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)abort</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">WSTone+Private.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/didStart" title="didStart"></a>
+	<h3 class="method-title"><code><a href="#//api/name/didStart">&ndash;&nbsp;didStart</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>通知委托：tone已启动</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)didStart</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">WSTone+Private.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/didStopWithData:" title="didStopWithData:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/didStopWithData:">&ndash;&nbsp;didStopWithData:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>通知委托：tone已正常停止</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)didStopWithData:(nullable NSData *)<em>data</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>data</code></th>
+						<td><p>需要返回给调用方的音频数据</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">WSTone+Private.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/didPause" title="didPause"></a>
+	<h3 class="method-title"><code><a href="#//api/name/didPause">&ndash;&nbsp;didPause</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>通知委托：tone已被中断暂停</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)didPause</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">WSTone+Private.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/didResume" title="didResume"></a>
+	<h3 class="method-title"><code><a href="#//api/name/didResume">&ndash;&nbsp;didResume</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>通知委托：tone已从中断暂停中恢复</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)didResume</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">WSTone+Private.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/didAbort" title="didAbort"></a>
+	<h3 class="method-title"><code><a href="#//api/name/didAbort">&ndash;&nbsp;didAbort</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>通知委托：tone已夭折</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)didAbort</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">WSTone+Private.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/initSession" title="initSession"></a>
+	<h3 class="method-title"><code><a href="#//api/name/initSession">&ndash;&nbsp;initSession</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>初始化session</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (BOOL)initSession</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">WSTone+Private.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/deinitSession" title="deinitSession"></a>
+	<h3 class="method-title"><code><a href="#//api/name/deinitSession">&ndash;&nbsp;deinitSession</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>结束session</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)deinitSession</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">WSTone+Private.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/handleSystemInterruption:" title="handleSystemInterruption:"></a>
+	<h3 class="method-title"><code><a href="#//api/name/handleSystemInterruption:">&ndash;&nbsp;handleSystemInterruption:</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>处理系统高优先级声音入侵</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>- (void)handleSystemInterruption:(NSNotification *)<em>notification</em></code></div>
+
+		    
+			
+			<div class="method-subsection arguments-section parameters">
+				<h4 class="method-subtitle parameter-title">Parameters</h4>
+				<table class="argument-def parameter-def">
+				
+					<tr>
+						<th scope="row" class="argument-name"><code>notification</code></th>
+						<td><p>监听到的通知消息</p></td>
+					</tr>
+				
+				</table>
+			</div>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">WSTone.m</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div>
+						</div>
+						
+
+						<a title="Extension Methods" name="task_Extension Methods"></a>
+						<h2 class="task-title">Extension Methods</h2>
+
+						<div class="task-list">
+							<div class="section-method">
+	<a name="//api/name/isAmbitious" title="isAmbitious"></a>
+	<h3 class="method-title"><code><a href="#//api/name/isAmbitious">&nbsp;&nbsp;isAmbitious</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>是否主动型。见<WSTone>类说明。</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic) BOOL isAmbitious</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">WSTone+Private.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/resumeAfterInterruption" title="resumeAfterInterruption"></a>
+	<h3 class="method-title"><code><a href="#//api/name/resumeAfterInterruption">&nbsp;&nbsp;resumeAfterInterruption</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>该属性表示当前tone是否可以在被系统音频事件打断时pause并在中断结束时resume。
+YES代表当前tone为综合型；NO代表当前tone为紧迫型。</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic) BOOL resumeAfterInterruption</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">WSTone+Private.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/vibrateOnRing" title="vibrateOnRing"></a>
+	<h3 class="method-title"><code><a href="#//api/name/vibrateOnRing">&nbsp;&nbsp;vibrateOnRing</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>当前的tone播放声音时是否伴随振动</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic) BOOL vibrateOnRing</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">WSTone+Private.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div><div class="section-method">
+	<a name="//api/name/isVibrating" title="isVibrating"></a>
+	<h3 class="method-title"><code><a href="#//api/name/isVibrating">&nbsp;&nbsp;isVibrating</a></code>
+</h3>
+
+	<div class="method-info">
+		<div class="pointy-thing"></div>
+
+		<div class="method-info-container">
+			
+			
+			<div class="method-subsection brief-description">
+				<p>是否正在振动</p>
+			</div>
+			
+		    
+
+			<div class="method-subsection method-declaration"><code>@property (nonatomic) BOOL isVibrating</code></div>
+
+		    
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+			<div class="method-subsection declared-in-section">
+				<h4 class="method-subtitle">Declared In</h4>
+				<p><code class="declared-in-ref">WSTone+Private.h</code></p>
+			</div>
+			
+			
+		</div>
+	</div>
+</div>
+						</div>
+						
+					</div>
+					
+					
+
+                    
+                    
+          
+				</main>
+
+				<footer>
+					<div class="footer-copyright">
+						
+						<p class="copyright">Copyright &copy; 2017 Telecom. All rights reserved. Updated: 2017-01-18</p>
+						
+						
+						<p class="generator">Generated by <a href="http://appledoc.gentlebytes.com">appledoc 2.2.1 (build 1334)</a>.</p>
+						
+					</div>
+				</footer>
+			</div>
+		</div>
+	</article>
+
+	<script src="../js/script.js"></script>
+</body>
+</html>
